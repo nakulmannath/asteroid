@@ -9,18 +9,18 @@ const ROW_CONTAINER: ViewStyle = {
 };
 const ITEM_CONTAINER: ViewStyle = {
   marginVertical: spacing[4],
-  marginLeft: spacing[5],
-  marginRight: spacing[4],
+  marginLeft: spacing[0],
+  marginRight: spacing[6],
   // width: Dimensions.get("window").width - 30,
 };
 const LABEL: TextStyle = {
   fontSize: 16,
   color: color.palette.black,
-  fontWeight: "bold",
   marginEnd: spacing[2],
+  marginHorizontal: spacing[2],
 };
 const VALUE: TextStyle = {
-  fontSize: 16,
+  fontSize: 14,
   color: color.palette.black,
 };
 
@@ -33,8 +33,6 @@ const RowDataItem = ({
   nasa_jpl_url: string;
   is_potentially_hazardous_asteroid: string;
 }) => {
-  console.log(is_potentially_hazardous_asteroid);
-
   return (
     <View style={ITEM_CONTAINER}>
       <View style={ROW_CONTAINER}>

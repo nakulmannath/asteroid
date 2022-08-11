@@ -62,7 +62,6 @@ const HomePage = () => {
         const randomObject = Math.floor(
           Math.random() * data.near_earth_objects.length
         );
-        console.log(randomObject);
         const randomId = data.near_earth_objects[randomObject];
 
         // Transforming data
