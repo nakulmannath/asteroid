@@ -17,6 +17,7 @@ import {
   HomeScreenNavigationProp,
   IAsteroidData,
 } from "../../navigrations/types";
+import randomApi from "../../services/randomApi";
 
 const HomePage = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();
@@ -29,8 +30,6 @@ const HomePage = () => {
     setLoading(true);
     return asteroidApi(asteroidId)
       .then(({ data }) => {
-        // console.log(data);
-
         // Transforming data
         const { name, nasa_jpl_url, is_potentially_hazardous_asteroid } =
           data as IAsteroidData;
@@ -55,6 +54,35 @@ const HomePage = () => {
       return setError(false);
     }
   }, [asteroidId]);
+
+  async function handleRandom() {
+    setLoading(true);
+    return randomApi()
+      .then(({ data }) => {
+        const randomObject = Math.floor(
+          Math.random() * data.near_earth_objects.length
+        );
+        console.log(randomObject);
+        const randomId = data.near_earth_objects[randomObject];
+
+        // Transforming data
+        const { name, nasa_jpl_url, is_potentially_hazardous_asteroid } =
+          randomId as IAsteroidData;
+        const prepareData: IAsteroidData = {
+          name,
+          nasa_jpl_url,
+          is_potentially_hazardous_asteroid,
+        };
+        setLoading(false);
+        // Set data
+        navigate("Details", { asteroidData: prepareData });
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+        setError(true);
+      });
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -101,7 +129,7 @@ const HomePage = () => {
           <View style={{ marginTop: 16, alignSelf: "center" }}>
             <TouchableOpacity
               style={[styles.searchBtn, { backgroundColor: "#346beb" }]}
-              onPress={handleAsteroid}
+              onPress={handleRandom}
             >
               <Text>Random Asteroid</Text>
 
