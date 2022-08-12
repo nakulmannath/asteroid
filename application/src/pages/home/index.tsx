@@ -6,10 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
+import { useToast } from "react-native-toast-notifications";
 import { variables } from "../../theme";
 
 import asteroidApi from "../../services/asteroidApi";
@@ -24,7 +29,11 @@ const HomePage = () => {
   const [asteroidId, setAsteroidId] = useState("");
   const [error, setError] = useState(false);
 
+  const toast = useToast();
+
   const [loading, setLoading] = useState(false);
+
+  const [rloading, setrLoading] = useState(false);
 
   async function handleAsteroid() {
     setLoading(true);
@@ -39,13 +48,16 @@ const HomePage = () => {
           is_potentially_hazardous_asteroid,
         };
         setLoading(false);
-        //Set data
+        setAsteroidId("");
         navigate("Details", { asteroidData: prepareData });
       })
       .catch((error) => {
+        toast.show("Invalid AsteroidID");
         console.error(error);
         setLoading(false);
         setError(true);
+
+        setAsteroidId("");
       });
   }
 
@@ -56,7 +68,7 @@ const HomePage = () => {
   }, [asteroidId]);
 
   async function handleRandom() {
-    setLoading(true);
+    setrLoading(true);
     return randomApi()
       .then(({ data }) => {
         const randomObject = Math.floor(
@@ -72,78 +84,70 @@ const HomePage = () => {
           nasa_jpl_url,
           is_potentially_hazardous_asteroid,
         };
-        setLoading(false);
+        setrLoading(false);
         // Set data
         navigate("Details", { asteroidData: prepareData });
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
+        setrLoading(false);
         setError(true);
       });
   }
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View
-        style={{
-          backgroundColor: variables.colors.gray100,
-          width: Dimensions.get("window").width - 30,
-          padding: 24,
-        }}
-      >
-        <Text style={styles.headerTitle}>Asteroid</Text>
-        {/* Input search */}
-        <View style={{ display: "flex" }}>
-          <TextInput
-            placeholder="Enter Asteroid ID"
-            autoCapitalize="words"
-            style={styles.input}
-            value={asteroidId}
-            onChangeText={setAsteroidId}
-            onSubmitEditing={handleAsteroid}
-          />
+    <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.loginScreenContainer}>
+          <View style={styles.loginFormView}>
+            <Text style={styles.logoText}>Asteroid</Text>
+            {/* Input search */}
+            <View style={{ display: "flex" }}>
+              <TextInput
+                placeholder="Enter Asteroid ID"
+                style={styles.loginFormTextInput}
+                value={asteroidId}
+                onChangeText={setAsteroidId}
+                onSubmitEditing={handleAsteroid}
+              />
 
-          <View style={{ marginTop: 16, alignSelf: "center" }}>
-            <TouchableOpacity
-              style={[
-                styles.searchBtn,
-                { backgroundColor: !asteroidId ? "#c8c8c8" : "#346beb" },
-              ]}
-              onPress={handleAsteroid}
-              disabled={!asteroidId}
-            >
-              <Text>SUBMIT</Text>
-
-              {loading && (
-                <ActivityIndicator
-                  size="small"
-                  style={{ paddingLeft: 8 }}
-                  color={variables.colors.black500}
+              <View style={{ marginTop: 16, alignSelf: "center" }}>
+                <Button
+                  buttonStyle={styles.loginButton}
+                  onPress={handleAsteroid}
+                  title="SUBMIT"
+                  disabled={!asteroidId}
                 />
-              )}
-            </TouchableOpacity>
-          </View>
 
-          <View style={{ marginTop: 16, alignSelf: "center" }}>
-            <TouchableOpacity
-              style={[styles.searchBtn, { backgroundColor: "#346beb" }]}
-              onPress={handleRandom}
-            >
-              <Text>Random Asteroid</Text>
+                {loading && (
+                  <ActivityIndicator
+                    size="small"
+                    style={{ paddingLeft: 8 }}
+                    color={variables.colors.black500}
+                  />
+                )}
+              </View>
 
-              {loading && (
-                <ActivityIndicator
-                  size="small"
-                  style={{ paddingLeft: 8 }}
-                  color={variables.colors.black500}
+              <View style={{ marginTop: 16, alignSelf: "center" }}>
+                <Button
+                  buttonStyle={styles.loginButton}
+                  onPress={handleRandom}
+                  title="Random Asteroid"
                 />
-              )}
-            </TouchableOpacity>
+
+                {rloading && (
+                  <ActivityIndicator
+                    size="small"
+                    style={{ paddingLeft: 8 }}
+                    color={variables.colors.black500}
+                  />
+                )}
+              </View>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

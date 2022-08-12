@@ -14,14 +14,15 @@ const ITEM_CONTAINER: ViewStyle = {
   // width: Dimensions.get("window").width - 30,
 };
 const LABEL: TextStyle = {
-  fontSize: 16,
-  color: color.palette.black,
-  marginEnd: spacing[2],
-  marginHorizontal: spacing[2],
-};
-const VALUE: TextStyle = {
   fontSize: 14,
   color: color.palette.black,
+  marginEnd: spacing[2],
+  marginHorizontal: spacing[-2],
+};
+const VALUE: TextStyle = {
+  fontSize: 12,
+  color: color.palette.black,
+  marginRight: spacing[6],
 };
 
 const RowDataItem = ({
@@ -49,9 +50,6 @@ const RowDataItem = ({
           {is_potentially_hazardous_asteroid.toString()}
         </Text>
       </View>
-      {/* <Text>{name}</Text>
-      <Text>{nasa_jpl_url}</Text>
-      <Text>{is_potentially_hazardous_asteroid.toString()}</Text> */}
     </View>
   );
 };

@@ -2,9 +2,41 @@ import { StyleSheet } from "react-native";
 import { variables } from "../../theme";
 
 const styles = StyleSheet.create({
-  container: {
+  containerView: {
     flex: 1,
-    backgroundColor: variables.colors.black400,
+    alignItems: "center",
+  },
+  loginScreenContainer: {
+    flex: 1,
+  },
+  logoText: {
+    fontSize: 40,
+    fontWeight: "800",
+    marginTop: 150,
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  loginFormView: {
+    flex: 1,
+  },
+  loginFormTextInput: {
+    height: 43,
+    fontSize: 14,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#eaeaea",
+    backgroundColor: "#fafafa",
+    paddingLeft: 10,
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  loginButton: {
+    backgroundColor: "#3897f1",
+    borderRadius: 10,
+    height: 45,
+    marginTop: 10,
+    width: 650,
+    alignItems: "center",
   },
 
   body: {
@@ -18,7 +50,7 @@ const styles = StyleSheet.create({
     zIndex: 0,
     height: 290,
     padding: 24,
-    backgroundColor: '#1e90ff',
+    backgroundColor: "#1e90ff",
   },
 
   header: {
@@ -48,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: "#c8c8c8"
+    borderBottomColor: "#c8c8c8",
   },
 
   searchBtn: {
